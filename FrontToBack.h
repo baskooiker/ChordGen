@@ -17,7 +17,7 @@ public:
     FrontToBack(const FrontToBack& orig);
     virtual ~FrontToBack();
     
-    ChordSequence generate(int root, Scale::Type scaleType, int sequenceLength, float density);
+    ChordSequence generate(int root, Scale::Type scaleType, int sequenceLength, float density, int start = 0);
 protected:
 
 };

@@ -18,8 +18,9 @@ public:
     BackToFront(const BackToFront& orig);
     virtual ~BackToFront();
     
-    ChordSequence generate(int root, Scale::Type scaleType, int sequenceLength, float density);
+    ChordSequence generate(int root, Scale::Type scaleType, int sequenceLength, float density, int end);
 private:
+    vector<Chord> generateSeq(int nrOfChords, Scale &scale, int end);
 
 };
 

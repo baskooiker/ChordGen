@@ -17,9 +17,10 @@ public:
     ChordGenStrategy(const ChordGenStrategy& orig);
     virtual ~ChordGenStrategy();
     
-    virtual ChordSequence generate(int root, Scale::Type scaleType, int sequenceLength, float density) = 0;
+    virtual ChordSequence generate(int root, Scale::Type scaleType, int sequenceLength, float density, int base) = 0;
 protected:
     int getChordLength(vector<int> rhythm, int index);
+    bool checkProgression(ChordSequence seq);
     
 
 };

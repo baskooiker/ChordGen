@@ -46,6 +46,8 @@ public:
     std::string toString();
     Fifth getFifth();
 
+    bool operator==(const Chord &c) const;
+    
 private:
     int root;
     Third third;

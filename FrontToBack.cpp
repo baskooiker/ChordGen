@@ -19,13 +19,10 @@ FrontToBack::FrontToBack(const FrontToBack& orig) {
 FrontToBack::~FrontToBack() {
 }
 
-ChordSequence FrontToBack::generate(int root, Scale::Type scaleType, int sequenceLength, float density) {
+ChordSequence FrontToBack::generate(int root, Scale::Type scaleType, int sequenceLength, float density, int start) {
 
     RhythmGenerator rg = RhythmGenerator();
     vector<int> rhythm = rg.generate(density);
-    for (int i = 0; i < rhythm.size(); i++)
-        printf("%d ", rhythm[i]);
-    printf("\n");
 
     Scale scale = Scale(root, scaleType);
 
@@ -35,14 +32,7 @@ ChordSequence FrontToBack::generate(int root, Scale::Type scaleType, int sequenc
 generation_loop:
     for (int i = 0; i < sequenceLength; i++) {
         if (i % 8 == 0) {
-            if (i == 0) {
-                lastChord = 0;
-            } else {
-                if (rand() % 2)
-                    lastChord = 0;
-                else
-                    lastChord = 4;
-            }
+            lastChord = start;
             seq.set(i, scale.getChord(lastChord));
         } else if (rhythm[i % 8] == 1) {
             bool good = true;
@@ -60,7 +50,7 @@ generation_loop:
                     if (chordLength > 2 || i % 4 == 0) {
                         good = false;
                     }
-                } else if ((float)rand() / (float)RAND_MAX < .75){
+                } else if ((float) rand() / (float) RAND_MAX < .75) {
                     newChord.setSeventh(Chord::NoneSv);
                 }
                 counter++;

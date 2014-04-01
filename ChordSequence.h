@@ -23,6 +23,7 @@ public:
     void set(int index, Chord chord);
     Chord getChord(int index);
     vector<Chord> getChords();
+    void append(vector<Chord> chords);
     
 private:
     vector<Chord> sequence;

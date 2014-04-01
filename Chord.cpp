@@ -152,3 +152,12 @@ string Chord::toString() {
 
     return (r + m + f + s);
 }
+
+bool Chord::operator==(const Chord &c) const {
+    return root == c.root &&
+            third == c.third &&
+            fifth == c.fifth &&
+            seventh == c.seventh &&
+            octave == c.octave &&
+            inversion == c.inversion;
+}

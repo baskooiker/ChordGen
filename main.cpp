@@ -23,14 +23,17 @@ using namespace std;
 /*
  * 
  */
-int main(int argc, char** argv) {
+int main(int argc, char** argv) { 
     ChordGen cg = ChordGen();
-//    cg->setScaleType(Scale::MelodicMinor); // Pretty solid. 1000 okays with the two others on, that is.
-//    cg->setSequenceLength(16); // weird stuff. Pretty fatal errors
+    cg.setRoot(0);
+//    cg.setScaleType(Scale::Major); // Pretty solid. 1000 okays with the two others on, that is.
+//    cg.setScaleType(Scale::NaturalMinor); // Pretty solid. 1000 okays with the two others on, that is.
+//    cg.setScaleType(Scale::HarmonicMinor); // Pretty solid. 1000 okays with the two others on, that is.
+//    cg.setScaleType(Scale::MelodicMinor); // Pretty solid. 1000 okays with the two others on, that is.
+    cg.setSequenceLength(16); // weird stuff. Pretty fatal errors
 //    cg->setDensity(.5); // weird stuff going on. Infinite loops and all that
     printf("ChordGen opened!\n");
-//    Sleep(10);
-    for (int i = 0; i < 100000; i++) {
+    for (int i = 0; i < 100; i++) {
         cg.generate();
 //        printf("sequence length = %d, density = %f\n", cg->getSequenceLength(), cg->getDensity());
         for(int j = 0; j < cg.getSequenceLength(); j++){

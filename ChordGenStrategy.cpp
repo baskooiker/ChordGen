@@ -7,6 +7,10 @@
 
 #include "ChordGenStrategy.h"
 
+#include <stdio.h>
+
+#include "Chord.h"
+
 ChordGenStrategy::ChordGenStrategy() {
 }
 
@@ -24,4 +28,30 @@ int ChordGenStrategy::getChordLength(vector<int> rhythm, int beatIndex) {
         l++;
     }
     return l;
+}
+
+bool ChordGenStrategy::checkProgression(ChordSequence seq) {
+    vector<Chord> chords = seq.getChords();
+    for (int i = 0; i < chords.size(); i++) {
+        bool check = false;
+        if (i == 0)
+            check = true;
+        else if (!(chords[i] == chords[i - 1]))
+            check = true;
+
+        if (check) {
+            Chord::Fifth fifth = chords[i].getFifth();
+            int chordLength = 0;
+            while (chords[i] == chords[i + chordLength] && (i + ++chordLength < chords.size())) {
+            }
+            if (fifth == Chord::Diminished || fifth == Chord::Augmented) {
+                if (chordLength > 2 || i % 4 == 0) {
+                    printf("false\n");
+                    return false;
+                }
+            }
+        }
+    }
+    printf("true\n");
+    return true;
 }

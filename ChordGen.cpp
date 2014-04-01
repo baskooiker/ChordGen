@@ -14,7 +14,9 @@
 #include <fstream>
 #include "FrontToBack.h"
 #include "ChordGenStrategy.h"
+#include "BackToFront.h"
 #include <float.h>
+#include <algorithm>
 
 ChordGen::ChordGen() {
     seq = ChordSequence();
@@ -44,7 +46,7 @@ ChordGen::ChordGen(const ChordGen& orig) {
 }
 
 ChordGen::~ChordGen() {
-    for(int i = 0; i < bank.size(); i++)
+    for (int i = 0; i < bank.size(); i++)
         delete bank[i];
     bank.clear();
 }
@@ -70,19 +72,26 @@ void ChordGen::generate() {
 
     // set density if not set
     if (!densitySet)
-        density = (float)rand() / (float)RAND_MAX;
+        density = (float) rand() / (float) RAND_MAX;
 
     // determine sequenceLentgh
     if (!sequenceLengthSet) {
-        if (((float)rand() / (float)RAND_MAX) < .5) {
+        if (((float) rand() / (float) RAND_MAX) < .5) {
             sequenceLength = 8;
         } else {
             sequenceLength = 16;
         }
     }
-    
+
     FrontToBack ftb = FrontToBack();
-    seq = ftb.generate(root, scaleType, sequenceLength, density);
+    BackToFront btf = BackToFront();
+    if (sequenceLength == 8) {
+        seq = btf.generate(root, scaleType, 8, density, 4);
+//        seq = ftb.generate(root, scaleType, sequenceLength, density);
+    } else if (sequenceLength == 16){
+        seq = btf.generate(root, scaleType, 8, density, 4);
+        seq.append(btf.generate(root, scaleType, 8, density, 0).getChords());
+    }
 }
 
 int ChordGen::getSequenceLength() {
@@ -135,7 +144,7 @@ void ChordGen::setScaleType() {
 }
 
 void ChordGen::setDensity(float f) {
-    density = f;
+    density = min(1.f, max(f, 0.f));
     densitySet = true;
 }
 
@@ -179,6 +188,7 @@ bool ChordGen::isDensitySet() {
 }
 
 // Bank methods ===================
+
 void ChordGen::store(int i) {
     bank[i] = new ChordSequence(seq);
 }

@@ -12,10 +12,6 @@
 using namespace std;
 
 ChordSequence::ChordSequence() {
-//    sequence = vector<Chord*>(8, new Chord());
-    for(int i = 0; i < 64; i++)
-        sequence.push_back(Chord());
-//    sequence
 }
 
 ChordSequence::ChordSequence(const ChordSequence& orig) {
@@ -26,7 +22,16 @@ ChordSequence::~ChordSequence() {
 }
 
 void ChordSequence::set(int index, Chord chord){
-    sequence[index] = chord;
+    if(sequence.size() > index)
+        sequence[index] = chord;
+    else if (sequence.size() > 0){
+        while(sequence.size() < index)
+            sequence.push_back(sequence[sequence.size()-1]);
+        sequence.push_back(chord);
+    } else {
+        while (sequence.size() <= index)
+            sequence.push_back(chord);
+    }
 }
 
 Chord ChordSequence::getChord(int index){
@@ -35,4 +40,9 @@ Chord ChordSequence::getChord(int index){
 
 vector<Chord> ChordSequence::getChords(){
     return sequence;
+}
+
+void ChordSequence::append(vector<Chord> chords){
+    for(int i = 0; i < chords.size(); i++)
+        sequence.push_back(chords[i]);
 }
